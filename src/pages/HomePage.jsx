@@ -1,22 +1,38 @@
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+
 import MovieCard from '../components/MovieCard';
 
-const MOVIES = [
-    {
-        id: 1,
-        title: 'Inception',
-        year: 2010,
-        director: 'Christopher Nolan',
-        genre: 'Sci-Fi, Action',
-        image: 'https://example.com/inception.jpg',
-        abstract: 'Un thriller sci-fi che esplora i confini dei sogni e della realtà.'
-    }
-];
 
 const HomePage = () => {
+    const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchMovies = () => {
+            axios.get('http://127.0.0.1:3000/movies')
+                .then(response => {
+                    setMovies(response.data);
+                    setLoading(false);
+                })
+                .catch(err => {
+                    setError('Errore nel caricamento dei film');
+                    setLoading(false);
+                    console.error('Errore durante il fetch dei film:', err);
+                });
+        };
+
+        fetchMovies();
+    }, []);
+
+    if (loading) return <div>Caricamento...</div>;
+    if (error) return <div>{error}</div>;
+
     return (
         <div>
             <h1>Film List</h1>
-            {MOVIES.map(movie => (
+            {movies.map(movie => (
                 <MovieCard
                     key={movie.id}
                     movie={movie}
@@ -26,5 +42,4 @@ const HomePage = () => {
         </div>
     );
 };
-
-export { HomePage, MOVIES };
+export { HomePage };

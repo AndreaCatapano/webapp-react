@@ -1,24 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import axios from 'axios';
+
+
 import MovieCard from '../components/MovieCard';
-import { MOVIES } from './HomePage';
 
 const MovieDetailPage = () => {
     const { id } = useParams();
+    const [movie, setMovie] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const movie = MOVIES.find(movie => movie.id === parseInt(id));
+    useEffect(() => {
+        const fetchMovieDetail = () => {
+            axios.get(`http://127.0.0.1:3000/movies/${id}`)
+                .then(response => {
+                    setMovie(response.data);
+                    setLoading(false);
+                })
+                .catch(err => {
+                    setError('Film non trovato');
+                    setLoading(false);
+                    console.error('Errore durante il fetch del dettaglio film:', err);
+                });
+        };
 
-    if (!movie) {
-        return <div>Film non trovato</div>;
-    }
+        fetchMovieDetail();
+    }, [id]);
+
+    if (loading) return <div>Caricamento...</div>;
+    if (error) return <div>{error}</div>;
 
     return (
         <div>
-            <MovieCard
-                movie={movie}
-                mode="detail"
-            />
-            <Link to="/">Torna alla Home</Link>
+            {movie && (
+                <>
+                    <MovieCard
+                        movie={movie}
+                        mode="detail"
+                    />
+                    <Link to="/">Torna alla Home</Link>
+                </>
+            )}
         </div>
     );
 };

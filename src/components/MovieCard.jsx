@@ -6,19 +6,18 @@ const MovieCard = ({ movie, mode = 'list' }) => {
     }
 
     return (
-        <div>
+        <div className="movie-card">
             <img
                 src={movie.image}
                 alt={movie.title}
                 style={{ maxWidth: '300px', maxHeight: '450px' }}
             />
-            <div>
+            <div className="movie-info">
                 <h2>{movie.title}</h2>
                 <p><strong>Direttore:</strong> {movie.director}</p>
                 <p><strong>Genere:</strong> {movie.genre}</p>
                 <p><strong>Anno:</strong> {movie.year}</p>
 
-                {/* Comportamento diverso in base alla modalità */}
                 {mode === 'list' ? (
                     <Link to={`/movie/${movie.id}`}>
                         <button>Vedi Dettagli</button>
