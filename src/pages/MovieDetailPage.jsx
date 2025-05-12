@@ -1,10 +1,12 @@
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
+import MovieCard from '../components/MovieCard';
 import { MOVIES } from './HomePage';
 
 const MovieDetailPage = () => {
     const { id } = useParams();
 
-    const movie = MOVIES.find(m => m.id === parseInt(id));
+    const movie = MOVIES.find(movie => movie.id === parseInt(id));
 
     if (!movie) {
         return <div>Film non trovato</div>;
@@ -12,9 +14,10 @@ const MovieDetailPage = () => {
 
     return (
         <div>
-            <h1>{movie.title}</h1>
-            <p>Anno: {movie.year}</p>
-            <p>Descrizione: {movie.description}</p>
+            <MovieCard
+                movie={movie}
+                mode="detail"
+            />
             <Link to="/">Torna alla Home</Link>
         </div>
     );
