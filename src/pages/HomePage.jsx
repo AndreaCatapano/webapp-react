@@ -41,11 +41,11 @@ const HomePage = () => {
         setFilteredMovies(filtered);
     };
 
-    if (loading) return <div>Caricamento...</div>;
-    if (error) return <div>{error}</div>;
+    if (loading) return <div className="loading">Caricamento...</div>;
+    if (error) return <div className="error-message">{error}</div>;
 
     return (
-        <div>
+        <div className="page-container">
             <h1>Film List</h1>
             <div className="search-container">
                 <input
@@ -56,18 +56,20 @@ const HomePage = () => {
                 />
             </div>
             {filteredMovies.length === 0 ? (
-                <div>Nessun film trovato</div>
+                <div className="no-results">Nessun film trovato</div>
             ) : (
-                filteredMovies.map(movie => (
-                    <MovieCard
-                        key={movie.id}
-                        movie={movie}
-                        mode="list"
-                    />
-                ))
+                <div className="movies-container">
+                    {filteredMovies.map(movie => (
+                        <MovieCard
+                            key={movie.id}
+                            movie={movie}
+                            mode="list"
+                        />
+                    ))}
+                </div>
             )}
         </div>
     );
 };
 
-export { HomePage };
+export default HomePage;

@@ -28,19 +28,19 @@ const MovieDetailPage = () => {
         fetchMovieDetail();
     }, [id]);
 
-    if (loading) return <div>Caricamento...</div>;
-    if (error) return <div>{error}</div>;
+    if (loading) return <div className="loading">Caricamento...</div>;
+    if (error) return <div className="error-message">{error}</div>;
 
     return (
-        <div>
+        <div className="page-container">
             {movie && (
-                <>
+                <div className="detail-container">
                     <MovieCard
                         movie={movie}
                         mode="detail"
                     />
-                    <Link to="/">Torna alla Home</Link>
-                </>
+                    <Link to="/" className="back-link">Torna alla Home</Link>
+                </div>
             )}
         </div>
     );
