@@ -10,36 +10,47 @@ const HomePage = () => {
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
 
-    useEffect(() => {
-        const fetchMovies = () => {
-            axios.get('http://127.0.0.1:3000/movies')
-                .then(response => {
-                    setMovies(response.data);
-                    setFilteredMovies(response.data);
-                    setLoading(false);
-                })
-                .catch(err => {
-                    setError('Errore nel caricamento dei film');
-                    setLoading(false);
-                    console.error('Errore durante il fetch dei film:', err);
-                });
-        };
 
-        fetchMovies();
-    }, []);
 
-    // Handle search input change
+    const fetchMovies = () => {
+        setLoading(true);
+        setError(null);
+
+        axios.get('http://127.0.0.1:3000/movies')
+            .then(response => {
+                setMovies(response.data);
+                setFilteredMovies(response.data);
+                setLoading(false);
+            })
+            .catch(err => {
+                setError('Errore nel caricamento dei film');
+                setLoading(false);
+                console.error('Errore durante il fetch dei film:', err);
+            });
+    };
+
     const handleSearchChange = (e) => {
         const term = e.target.value.toLowerCase();
         setSearchTerm(term);
+        setError(null);
 
-        // Filter movies based on title or other searchable fields
-        const filtered = movies.filter(movie =>
-            movie.title.toLowerCase().includes(term)
-        );
-
-        setFilteredMovies(filtered);
+        if (term === '') {
+            fetchMovies();
+        } else {
+            axios.get(`http://127.0.0.1:3000/movies?search=${encodeURIComponent(term)}`)
+                .then(response => {
+                    setFilteredMovies(response.data);
+                })
+                .catch(err => {
+                    setError('Errore nella ricerca dei film');
+                    console.error('Errore nel fetch dei film filtrati:', err);
+                });
+        }
     };
+
+    useEffect(() => {
+        fetchMovies();
+    }, []);
 
     if (loading) return <div className="loading">Caricamento...</div>;
     if (error) return <div className="error-message">{error}</div>;
