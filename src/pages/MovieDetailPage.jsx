@@ -4,6 +4,7 @@ import axios from 'axios';
 
 
 import MovieCard from '../components/MovieCard';
+import ReviewCard from '../components/ReviewCard';
 
 const MovieDetailPage = () => {
     const { id } = useParams();
@@ -50,16 +51,7 @@ const MovieDetailPage = () => {
                     <h2 className="reviews-title">Recensioni</h2>
                     <div className="reviews-list">
                         {movie.reviews.map((review, index) => (
-                            <div key={index} className="review-item">
-                                <div className="review-header">
-                                    <h3 className="review-author">{review.name || 'Utente anonimo'}</h3>
-                                    <div className="review-rating">
-                                        {review.vote && `${review.vote} ⭐`}
-                                    </div>
-                                </div>
-                                <p className="review-content">{review.text}</p>
-                                <p className="review-date">{review.created_at && new Date(review.created_at).toLocaleDateString('it-IT')}</p>
-                            </div>
+                            <ReviewCard key={index} review={review} />
                         ))}
                     </div>
                 </div>
