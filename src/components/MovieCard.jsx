@@ -10,7 +10,6 @@ const MovieCard = ({ movie, mode = 'list' }) => {
             <img
                 src={movie.imageUrl}
                 alt={movie.title}
-                style={{ maxWidth: '300px', maxHeight: '450px' }}
             />
             <div className="movie-info">
                 <h2>{movie.title}</h2>
