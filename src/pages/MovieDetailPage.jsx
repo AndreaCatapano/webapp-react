@@ -1,10 +1,10 @@
+// MovieDetailPage.js con ReviewsSection
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-
 import MovieCard from '../components/MovieCard';
-import ReviewCard from '../components/ReviewCard';
+import ReviewsSection from '../components/ReviewSection.jsx';
 
 const MovieDetailPage = () => {
     const { id } = useParams();
@@ -46,20 +46,7 @@ const MovieDetailPage = () => {
                 )}
             </div>
 
-            {movie && movie.reviews && movie.reviews.length > 0 ? (
-                <div className="reviews-container">
-                    <h2 className="reviews-title">Recensioni</h2>
-                    <div className="reviews-list">
-                        {movie.reviews.map((review, index) => (
-                            <ReviewCard key={index} review={review} />
-                        ))}
-                    </div>
-                </div>
-            ) : (
-                <div className="no-reviews">
-                    <p>Nessuna recensione disponibile per questo film.</p>
-                </div>
-            )}
+            {movie && <ReviewsSection reviews={movie.reviews} />}
         </>
     );
 };
