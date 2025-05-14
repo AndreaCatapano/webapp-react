@@ -266,13 +266,45 @@ button:hover,
 
 
 /* ================================
+   STAR RATING
+================================== */
+.star-rating {
+  display: inline-flex;
+  align-items: center;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.star-rating i {
+  font-size: 1.1rem;
+  margin-right: 2px;
+}
+
+.star-icon.filled {
+  color: #f5c518;
+}
+
+.star-icon.empty {
+  color: #ccc;
+}
+
+
+/* ================================
    RESPONSIVE DESIGN
 ================================== */
 @media (max-width: 850px) {
-  .movies-grid {
-    grid-template-columns: 1fr;
-  }
-
   .movie-card {
     max-width: 100%;
   }

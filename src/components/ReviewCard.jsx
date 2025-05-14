@@ -1,10 +1,12 @@
+import StarRating from './StarRating';
+
 const ReviewCard = ({ review }) => {
     return (
         <div className="review-item">
             <div className="review-header">
                 <h3 className="review-author">{review.name || 'Utente anonimo'}</h3>
                 <div className="review-rating">
-                    {review.vote && `${review.vote} ⭐`}
+                    <StarRating rating={review.vote} />
                 </div>
             </div>
             <p className="review-content">{review.text}</p>
