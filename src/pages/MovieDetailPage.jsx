@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import MovieCard from '../components/MovieCard';
 import ReviewsSection from '../components/ReviewSection.jsx';
+import ReviewForm from '../components/ReviewForm.jsx';
 
 const MovieDetailPage = () => {
     const { id } = useParams();
@@ -47,6 +48,8 @@ const MovieDetailPage = () => {
             </div>
 
             {movie && <ReviewsSection reviews={movie.reviews} />}
+
+            {movie && <ReviewForm />}
         </>
     );
 };
