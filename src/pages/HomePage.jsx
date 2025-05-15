@@ -6,25 +6,18 @@ import MovieCard from '../components/MovieCard';
 const HomePage = () => {
     const [movies, setMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
 
 
 
     const fetchMovies = () => {
-        setLoading(true);
-        setError(null);
 
         axios.get('http://127.0.0.1:3000/movies')
             .then(response => {
                 setMovies(response.data);
                 setFilteredMovies(response.data);
-                setLoading(false);
             })
             .catch(err => {
-                setError('Errore nel caricamento dei film');
-                setLoading(false);
                 console.error('Errore durante il fetch dei film:', err);
             });
     };
@@ -42,7 +35,6 @@ const HomePage = () => {
                     setFilteredMovies(response.data);
                 })
                 .catch(err => {
-                    setError('Errore nella ricerca dei film');
                     console.error('Errore nel fetch dei film filtrati:', err);
                 });
         }
@@ -51,9 +43,6 @@ const HomePage = () => {
     useEffect(() => {
         fetchMovies();
     }, []);
-
-    if (loading) return <div className="loading">Caricamento...</div>;
-    if (error) return <div className="error-message">{error}</div>;
 
     return (
         <div className="page-container">
