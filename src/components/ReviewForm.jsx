@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useLoading } from '../context/LoadingContext';
+
 
 const ReviewForm = ({ movieId, onReviewAdded }) => {
+
+  const { startLoading, stopLoading, setLoadingError } = useLoading();
+
+
   const [formData, setFormData] = useState({
     reviewerName: '',
     reviewText: '',
@@ -24,6 +30,8 @@ const ReviewForm = ({ movieId, onReviewAdded }) => {
       vote: formData.rating,
     };
 
+    startLoading();
+
     axios.post(`http://127.0.0.1:3000/movies/${movieId}`, dataToSend)
       .then(() => {
         setFormData({
@@ -37,7 +45,12 @@ const ReviewForm = ({ movieId, onReviewAdded }) => {
         }
       })
       .catch((error) => {
+        setLoadingError('Messaggio di errore');
         console.error('Errore durante l\'invio della recensione:', error);
+        stopLoading();
+      })
+      .finally(_ => {
+        stopLoading();
       });
   };
 
